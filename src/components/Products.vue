@@ -1,20 +1,41 @@
 <template>
-<div>
+  <div>
     <h2>Tooted</h2>
-</div>
+    <b-table striped hover :items="items" :fields="fields"> 
+      <template #cell(price)="data">
+        <b class="text-info">{{ data.value }} EUR</b>
+      </template>
+    </b-table>
+  </div>
 </template>
 
 <script>
+import axios from "axios"; 
 export default {
+  name: "Products",
   data() {
-    return {};
+    return {
+      count: 0, //mitu rida tabelisse loob, alguses tühi
+      fields: [
+        { key: "category", label: "Kategooria" }, //key on see, mida muudan, väljad, mida tahan näha
+        { key: "brandname", label: "Bränd" },
+        { key: "productCode", label: "Toote kood" },
+        { key: "name", label: "Nimi" },
+        { key: "weight", label: "Kaal" },
+        { key: "price", label: "Hind" },
+        { key: "kgprice", label: "Kg Hind" },
+      ],
+      items: [], //peaks tooma toote väärtused
+    };
   },
-
-  async created() {
-
+  async created() { //see on päring andmebaasile (get päring postmanis)
+    const products = await axios({
+      url: "api/products",
+      method: "GET",
+    });
+    console.log("products", products);
+    this.items = products.data.allProducts;
   },
-  methods: {
-
-  },
+  methods: {},
 };
 </script>

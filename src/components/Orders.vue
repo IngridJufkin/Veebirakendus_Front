@@ -5,9 +5,11 @@
     <button @click="addCount()">+</button>
     <button @click="removeCount()">-</button> -->
     <b-table striped hover :items="items" :fields="fields">
+
       <template #cell(price)="data">
         <b class="text-info">{{ data.value }} EUR</b>
       </template>
+
       <template #cell(Tooted)="data">
         <b-button
           v-b-modal.modal-1
@@ -22,7 +24,7 @@
       </template> -->
     </b-table>
 
-    <b-modal id="modal-1" :title="productTableTitle" size="xl">
+    <b-modal id="modal-1" :title="productTableTitle" size="xl"> 
       <b-table striped hover :items="productItems" :fields="productFields">
         <template #cell(price)="data">
           <b class="text-info">{{ data.value }} EUR</b>
@@ -50,7 +52,7 @@ export default {
 
       productFields: [
         "category",
-        "productcode",
+        "productCode",
         "name",
         "weight",
         "price",
@@ -74,7 +76,7 @@ export default {
     showProducts(products, item) {
       console.log("products", products);
       this.productItems = products;
-      this.productTableTitle = item.orderNumber
+      this.productTableTitle = item.orderNumber//toob headeri üles nurka
     },
     addCount() {
       console.log("Praegune count: ", this.count);

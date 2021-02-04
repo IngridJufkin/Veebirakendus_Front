@@ -12,7 +12,7 @@ export const routes = [
     components: { default: Orders }
   }, 
   {
-    path: '/orders',
+    path: '/products',
     name: 'Tooted',
     components: { default: Products }
   }
