@@ -5,16 +5,19 @@
     <button @click="addCount()">+</button>
     <button @click="removeCount()">-</button> -->
     <b-table striped hover :items="items" :fields="fields">
-
       <template #cell(price)="data">
-        <b class="text-info">{{ data.value }} EUR</b>
+        <b>{{ data.value }} EUR</b>
+      </template>
+
+      <template #cell(orderDate)="data">
+        <b>{{ $moment(data.value).format("DD.MM.YYYY hh:mm") }}</b>
       </template>
 
       <template #cell(Tooted)="data">
         <b-button
           v-b-modal.modal-1
           variant="success"
-          @click="showProducts(data.item.products, data.item)" 
+          @click="showProducts(data.item.products, data.item)"
           >Vaata tooteid</b-button
         >
       </template>
@@ -24,10 +27,22 @@
       </template> -->
     </b-table>
 
-    <b-modal id="modal-1" :title="productTableTitle" size="xl"> 
+    <b-modal id="modal-1" :title="productTableTitle" size="xl">
       <b-table striped hover :items="productItems" :fields="productFields">
         <template #cell(price)="data">
-          <b class="text-info">{{ data.value }} EUR</b>
+          <b>{{ data.value }}</b>
+        </template>
+
+        <template #cell(category)="data">
+          <b>{{ data.value[0] }}</b>
+        </template>
+
+        <template #cell(kgprice)="data">
+          <b>{{ data.value }}</b>
+        </template>
+
+        <template #cell(amount)="data">
+          <b>{{ data.value }}</b>
         </template>
       </b-table>
     </b-modal>
@@ -43,24 +58,24 @@ export default {
       count: 0,
       fields: [
         { key: "orderNumber", label: "Tellimuse number" },
-        "orderDate",
-        "status",
-        "Tooted",
-        "price",
+        { key: "orderDate", label: "Tellimuse kuupäev" },
+         { key: "status", label: "Tellimuse staatus" },
+        { key: "Tooted", label: "Tooted" },
+        { key: "price", label: "Toote hind" },
       ],
       items: [],
 
       productFields: [
-        "category",
-        "productCode",
-        "name",
-        "weight",
-        "price",
-        "kgprice",
-        "amount",
+        { key: "category", label: "Kategooria" },
+        { key: "productCode", label: "Tootekood" },
+        { key: "name", label: "Toote nimi" },
+        { key: "weight", label: "Toote kaal (G)" },
+        { key: "price", label: "Toote hind (EUR)" },
+        { key: "kgprice", label: "Kg hind (EUR)" },
+        { key: "amount", label: "Kogus (TK)" },
       ],
       productItems: [],
-      productTableTitle: 'Pealkiri'
+      productTableTitle: "Pealkiri",
     };
   },
   async created() {
@@ -76,16 +91,16 @@ export default {
     showProducts(products, item) {
       console.log("products", products);
       this.productItems = products;
-      this.productTableTitle = item.orderNumber//toob headeri üles nurka
+      this.productTableTitle = item.orderNumber; //toob headeri üles nurka
     },
-    addCount() {
+    /**addCount() {
       console.log("Praegune count: ", this.count);
       this.count++;
     },
     removeCount() {
       console.log("Eelmine count: ", this.count);
       this.count--;
-    },
+    },**/
   },
 };
 </script>

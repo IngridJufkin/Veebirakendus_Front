@@ -1,16 +1,28 @@
 <template>
   <div>
     <h2>Tooted</h2>
-    <b-table striped hover :items="items" :fields="fields"> 
+    <b-table striped hover :items="items" :fields="fields">
       <template #cell(price)="data">
-        <b class="text-info">{{ data.value }} EUR</b>
+        <b>{{ data.value }} EUR</b>
+      </template>
+
+      <template #cell(weight)="data">
+        <b>{{ data.value }} g</b>
+      </template>
+
+      <template #cell(kgprice)="data">
+        <b>{{ data.value }} EUR</b>
+      </template>
+
+      <template #cell(category)="data">
+        <b>{{ data.value[0]}}</b> 
       </template>
     </b-table>
   </div>
 </template>
 
 <script>
-import axios from "axios"; 
+import axios from "axios";
 export default {
   name: "Products",
   data() {
@@ -28,14 +40,14 @@ export default {
       items: [], //peaks tooma toote väärtused
     };
   },
-  async created() { //see on päring andmebaasile (get päring postmanis)
+  async created() {
+    //see on päring andmebaasile (get päring postmanis)
     const products = await axios({
       url: "api/products",
       method: "GET",
     });
     console.log("products", products);
     this.items = products.data.allProducts;
-  },
-  methods: {},
+  }
 };
 </script>
