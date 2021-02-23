@@ -1,21 +1,21 @@
 <template>
   <div>
-    <h2>Tooted</h2>
+    <h2>OrderByID</h2>
     <b-table striped hover :items="items" :fields="fields">
       <template #cell(price)="data">
-        <b>{{ data.value }}</b>
+        <b>{{ data.value }} EUR</b>
       </template>
 
       <template #cell(weight)="data">
-        <b>{{ data.value }}</b>
+        <b>{{ data.value }} g</b>
       </template>
 
       <template #cell(kgprice)="data">
-        <b>{{ data.value }}</b>
+        <b>{{ data.value }} EUR</b>
       </template>
 
       <template #cell(category)="data">
-        <b>{{ data.value[0] }}</b>
+        <b>{{ data.value[0]}}</b> 
       </template>
     </b-table>
   </div>
@@ -24,7 +24,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "Products",
+  name: "OrderByID",
   data() {
     return {
       count: 0, //mitu rida tabelisse loob, alguses tühi
@@ -33,9 +33,9 @@ export default {
         { key: "brandname", label: "Bränd" },
         { key: "productCode", label: "Toote kood" },
         { key: "name", label: "Nimi" },
-        { key: "weight", label: "Kaal (G)" },
-        { key: "price", label: "Hind (€)" },
-        { key: "kgprice", label: "Kg Hind (€)" },
+        { key: "weight", label: "Kaal" },
+        { key: "price", label: "Hind" },
+        { key: "kgprice", label: "Kg Hind" },
       ],
       items: [], //peaks tooma toote väärtused
     };
@@ -43,12 +43,12 @@ export default {
   async created() {
     //see on päring andmebaasile (get päring postmanis)
     const products = await axios({
-      url: "api/products",
+      url: "/order/:id",
       method: "GET",
-      headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
+      headers: {authorization: "Bearer " + localStorage.getItem("jwt")},
     });
-    console.log("products", products);
+    console.log("OrderByID", OrderByID);
     this.items = products.data.allProducts;
-  },
+  }
 };
 </script>

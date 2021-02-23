@@ -22,6 +22,12 @@
         >
       </template>
 
+      <template v-slot:cell(status)="data">
+        <span :style="`color: ${getColor(data.value)}`">
+          {{ data.value }}
+        </span>
+      </template>
+
       <!-- <template #cell(client)="data">
         <b class="text-info">{{ data.value.lastName }}</b>, <b>{{ data.value.firstName }}</b>
       </template> -->
@@ -59,9 +65,12 @@ export default {
       fields: [
         { key: "orderNumber", label: "Tellimuse number" },
         { key: "orderDate", label: "Tellimuse kuupäev" },
-         { key: "status", label: "Tellimuse staatus" },
         { key: "Tooted", label: "Tooted" },
-        { key: "price", label: "Toote hind" },
+        { key: "totalPrice", label: "Hind soodustuseta" },
+        { key: "bonusCode.0.code", label: "Sooduskood" },
+        { key: "totalDiscount", label: "Soodustus" },
+        { key: "toPay", label: "Tasumisele kuulub" },
+        { key: "status", label: "Tellimuse staatus" },
       ],
       items: [],
 
@@ -82,7 +91,7 @@ export default {
     const orders = await axios({
       url: "api/orders",
       method: "GET",
-      headers: {},
+      headers: {authorization: "Bearer " + localStorage.getItem("jwt")}, //autorizatoni nimeline token mille väärtus on //jwt nimi localstoreages
     });
     console.log("orders", orders);
     this.items = orders.data.allOrders;
@@ -93,14 +102,14 @@ export default {
       this.productItems = products;
       this.productTableTitle = item.orderNumber; //toob headeri üles nurka
     },
-    /**addCount() {
-      console.log("Praegune count: ", this.count);
-      this.count++;
+
+    getColor(status) {
+      if (status === "WAITING_FOR_PAYMENT") {
+        return "red";
+      } else {
+        return "green";
+      }
     },
-    removeCount() {
-      console.log("Eelmine count: ", this.count);
-      this.count--;
-    },**/
   },
 };
 </script>
