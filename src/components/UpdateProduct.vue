@@ -19,14 +19,19 @@
       </template>
 
       <template #cell(updateProduct)="data">
-        <b-button v-b-modal.modal-1 size="sm" variant="success"
-         @click="updateProduct(data.item._id, data.index)" 
+        <b-button
+          v-b-modal.modal-1
+          size="sm"
+          variant="success"
+          @click="updateProduct(data.item._id, data.index)"
           >Uuenda toodet</b-button
         >
       </template>
 
       <template #cell(deleteProduct)="data">
-        <b-button size="sm" variant="danger"
+        <b-button
+          size="sm"
+          variant="danger"
           @click="deleteProduct(data.item._id, data.index)"
           >Kustuta toode
         </b-button>
@@ -55,8 +60,6 @@
   </div>
 </template>
 
-
-
 <script>
 import axios from "axios";
 export default {
@@ -78,43 +81,42 @@ export default {
       items: [], //peaks tooma toote väärtused
     };
   },
-
-  async created() { //kui leht tekitatakse
+  async created() {
+    //kui leht tekitatakse
     //see on päring andmebaasile (get päring postmanis)
     const products = await axios({
       url: "api/products",
       method: "GET",
-      headers: {authorization: "Bearer " + localStorage.getItem("jwt")},
+      headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
     });
     console.log("products", products);
     this.items = products.data.allProducts;
   },
   methods: {
-
-   deleteProduct(id, index) {
+    deleteProduct(id, index) {
       if (confirm("Oled kindel?"))
         axios
-          .delete("/api/product/" + id) //pean frondis reaalse värtuse panema 
-          .then((resp) => {
+          .delete("/api/product/" + id, {headers: {authorization: "Bearer " + localStorage.getItem("jwt")}}) //pean frondis reaalse värtuse panema
+          .then((response) => {
             this.items.splice(index, 1);
+            console.log(response);
           })
           .catch((error) => {
             console.log(error.message);
-          })
+          });
     },
-
-       updateProduct(id, index) {
-      if (confirm("Oled kindel?"))
+    /*   updateProduct(id, index) {
       console.log("Olen siin", index)
         axios
-          .update("/api/product/" + id) //pean frondis reaalse värtuse panema 
+          .post("/api/product/" + id) //pean frondis reaalse värtuse panema 
           .then((resp) => {
+            console.log()
             this.items.splice(index, 1);
           })
           .catch((error) => {
             console.log(error);
           })
-    },
+    },*/
   },
 };
 </script>

@@ -78,7 +78,7 @@ export default {
             },
         }},
 methods: {
-  headers: {authorization: "Bearer " + localStorage.getItem("jwt")},
+  
     addProduct() {
         let newProduct = { //teeme uued muutujad, kõikide product tabeli väljadega, mida formil kuvada väljadena
                 name: this.product.name,
@@ -94,7 +94,7 @@ methods: {
         this.submitToServer(newProduct) //kutsun välja kõik sisestatud tekstid koos newproduct väljadega
     },
     submitToServer(data) { //kutsun üleval välja, võtab uue meetodiga uue data 
-        axios.post('api/product', data) //suuname back endi
+        axios.post('api/product', data, {headers: {authorization: "Bearer " + localStorage.getItem("jwt")}}) //suuname back endi
             .then((response) => {
                 console.log(response);
             })

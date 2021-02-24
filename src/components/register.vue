@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-lg-6 offset-lg-3 col-sm-10 offset-sm-1">
         <form
           class="text-center border border-primary p-5"
-          style="margin-top: 70px; height: auto; padding-top: 100px !important"
+          style="margin-top: 0px; height: auto; padding-top: 50px !important"
           @submit.prevent="addUser"
         >
+          <h4>Registreeri kasutajaks</h4> <br>
           <input
             type="text"
             id="firstName"
@@ -60,7 +60,6 @@
         </form>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -94,10 +93,9 @@ export default {
     },
     async submitToServer(data) {
       //kutsun üleval välja, võtab uue meetodiga uue data
-      const user = await  axios.post('api/user', data) //suuname back endi , kasutan async await fn sest kasutada
+      const user = await axios.post("api/user", data); //suuname back endi , kasutan async await fn sest kasutada
       console.log("users", user);
       this.$router.push("/login");
-
 
       /* MEETOD 1
         url: 'api/user', 
