@@ -23,7 +23,7 @@
           v-b-modal.modal-1
           size="sm"
           variant="success"
-          @click="updateProduct(data.item._id, data.index)"
+          @click="editOneProduct(data.index)"
           >Uuenda toodet</b-button
         >
       </template>
@@ -38,37 +38,27 @@
       </template>
     </b-table>
 
-    <b-modal id="modal-1" :title="productTableTitle" size="xl">
-      <b-table striped hover :items="productItems" :fields="productFields">
-        <template #cell(price)="data">
-          <b>{{ data.value }}</b>
-        </template>
-
-        <template #cell(category)="data">
-          <b>{{ data.value[0] }}</b>
-        </template>
-
-        <template #cell(kgprice)="data">
-          <b>{{ data.value }}</b>
-        </template>
-
-        <template #cell(amount)="data">
-          <b>{{ data.value }}</b>
-        </template>
-      </b-table>
+    <b-modal id="modal-1" :title="productTableTitle" size="small">
+      <b-table striped hover :items="productItems" :fields="Fields"> </b-table>
+      <new-product :productProps="editProduct"></new-product> <!-- editproduct  prop= "items array"[terve editproduct object item] -->
     </b-modal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import NewProduct from './NewProduct.vue';//impordin NewProducti
 export default {
   name: "Products",
+  components: { //lisan componendi NewProduct, et saaks kasutada modalit
+    NewProduct
+  },
   data() {
     return {
       count: 0, //mitu rida tabelisse loob, alguses tühi
+      editProduct: null, //data property esialgu null
       fields: [
-        { key: "category", label: "Kategooria" }, //key on see, mida muudan, väljad, mida tahan näha
+        { key: "category", label: "Kategooria" }, //key on see, mida muudan ehk key väljad, mida tahan näha
         { key: "brandname", label: "Bränd" },
         { key: "productCode", label: "Toote kood" },
         { key: "name", label: "Nimi" },
@@ -78,12 +68,11 @@ export default {
         { key: "updateProduct", label: "" },
         { key: "deleteProduct", label: "" },
       ],
-      items: [], //peaks tooma toote väärtused
+      items: [], //annab toote väärtused
+      itemTabelTitle: "Muuda toodet", 
     };
   },
-  async created() {
-    //kui leht tekitatakse
-    //see on päring andmebaasile (get päring postmanis)
+  async created() { //kui leht tekitatakse, see on päring andmebaasile (get päring postmanis)
     const products = await axios({
       url: "api/products",
       method: "GET",
@@ -96,7 +85,9 @@ export default {
     deleteProduct(id, index) {
       if (confirm("Oled kindel?"))
         axios
-          .delete("/api/product/" + id, {headers: {authorization: "Bearer " + localStorage.getItem("jwt")}}) //pean frondis reaalse värtuse panema
+          .delete("/api/product/" + id, {
+            headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
+          }) //pean frondis reaalse värtuse panema
           .then((response) => {
             this.items.splice(index, 1);
             console.log(response);
@@ -105,18 +96,11 @@ export default {
             console.log(error.message);
           });
     },
-    /*   updateProduct(id, index) {
-      console.log("Olen siin", index)
-        axios
-          .post("/api/product/" + id) //pean frondis reaalse värtuse panema 
-          .then((resp) => {
-            console.log()
-            this.items.splice(index, 1);
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    },*/
+    //Uuenda toodet joaks editOneProduct, mis annab kaasa indexi itemsitest
+    editOneProduct(index) {
+      this.editProduct = this.items[index];
+    },
+
   },
 };
 </script>

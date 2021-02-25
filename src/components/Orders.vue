@@ -91,7 +91,7 @@ export default {
     const orders = await axios({
       url: "api/orders",
       method: "GET",
-      headers: {authorization: "Bearer " + localStorage.getItem("jwt")}, //autorizatoni nimeline token mille väärtus on //jwt nimi localstoreages
+      headers: { authorization: "Bearer " + localStorage.getItem("jwt") }, //autorizatoni nimeline token mille väärtus on //jwt nimi localstoreages
     });
     console.log("orders", orders);
     this.items = orders.data.allOrders;
