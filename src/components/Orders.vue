@@ -18,8 +18,7 @@
           v-b-modal.modal-1
           variant="success"
           @click="showProducts(data.item.products, data.item)"
-          >Vaata tooteid</b-button
-        >
+          >Vaata tooteid</b-button>
       </template>
 
       <template v-slot:cell(status)="data">
@@ -27,10 +26,6 @@
           {{ data.value }}
         </span>
       </template>
-
-      <!-- <template #cell(client)="data">
-        <b class="text-info">{{ data.value.lastName }}</b>, <b>{{ data.value.firstName }}</b>
-      </template> -->
     </b-table>
 
     <b-modal id="modal-1" :title="productTableTitle" size="xl">
@@ -91,7 +86,7 @@ export default {
     const orders = await axios({
       url: "api/orders",
       method: "GET",
-      headers: { authorization: "Bearer " + localStorage.getItem("jwt") }, //autorizatoni nimeline token mille väärtus on //jwt nimi localstoreages
+      headers: { authorization: "Bearer " + localStorage.getItem("jwt") }, //autorizatoni nimeline token mille väärtus on jwt nimi localstoreages
     });
     console.log("orders", orders);
     this.items = orders.data.allOrders;

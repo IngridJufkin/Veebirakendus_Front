@@ -39,7 +39,7 @@ export default {
             return false; //tagastame route return route
           } 
            else if (localStorage.getItem('accessType') !== "ADMIN" && ["Uuenda toodet", "Lisa toode"].includes(route.name)) {
-             return false //kui accessType poe admin siis ära include-i ehk return false
+             return false //kui accessType pole admin siis ära include-i ehk return false
           }
           else
           return true;

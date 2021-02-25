@@ -38,8 +38,7 @@
       </template>
     </b-table>
 
-    <b-modal id="modal-1" :title="productTableTitle" size="small">
-      <b-table striped hover :items="productItems" :fields="Fields"> </b-table>
+    <b-modal id="modal-1" size="small">
       <new-product :productProps="editProduct"></new-product> <!-- editproduct  prop= "items array"[terve editproduct object item] -->
     </b-modal>
   </div>

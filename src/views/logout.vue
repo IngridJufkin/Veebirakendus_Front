@@ -1,6 +1,7 @@
 <template>
   <div>
-    <!-- <b-button size="sm" variant="outline-primary" @click="logOut"
+    <!--Esialgu Log out Button eraldi lehel
+    <b-button size="sm" variant="outline-primary" @click="logOut"
       >Logi välja!</b-button
     > 
     <div class="col-md-12">

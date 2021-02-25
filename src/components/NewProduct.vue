@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="col-md-12 form-wrapper">
-      <h2>Lisa uus toode!</h2>
+      <h2>Lisa või muuda toodet!</h2>
       <br />
       <form id="create-post-form">
         <div class="form-group col-md-12">
@@ -101,16 +101,9 @@
         </div>
 
         <br />
-        <b-button size="sm" variant="outline-primary" @click="addProduct"
-          >Lisa!
-        </b-button>
-        <b-button
-          size="sm"
-          margin-right="20px"
-          variant="outline-primary"
-          @click="updateProduct"
-          >Uuenda toode!</b-button
-        >
+        <b-button size="sm" variant="outline-primary" margin-right="20px" @click="addProduct">Lisa!</b-button> 
+        
+        <b-button size="sm" variant="outline-primary" @click="updateProduct">Uuenda toode!</b-button>
       </form>
     </div>
   </div>
@@ -118,13 +111,11 @@
 
 <script>
 import axios from "axios";
-import { text } from 'body-parser';
 export default {
   name: "add",
-  props: { // see on see mille kaudu edastan NewProduct komponendile andmed, ehk modalist edastan siia
-    //defineerin muutujad, mida , saan updateproductst anda kaasa infot newproductisse, parent componendile annan children (newProduct) compnentisdele
-    //data nimetused nimetused peavad oelma erinevad, määran tüübi ära, kas object või tüübi, req ei tohi panna
-    productProps: Object //kui antakse propile väärtus, saan ligi this.data
+  props: { // see on see mille kaudu edastan NewProduct komponendile andmed, ehk modalist edastan siia ehk defineerin muutujad, mida , saan updateproductst anda kaasa infot newproductisse, parent componendile annan children (newProduct) compnentisdele
+    //data nimetused nimetused peavad oelma erinevad, määran tüübi ära, kas object või array, req ei tohi panna
+    productProps: Object, //propi väärtusele saan ligi this.productProps
   },
   data() {
     return {
@@ -137,18 +128,16 @@ export default {
         kgprice: "",
         price: "",
         notes: "",
-        ...this.productProps //kopeerib product Props väljad productisse
+        ...this.productProps, //kopeerib product Props väljad productisse
       },
     };
   },
-   async created() {
-  console.log(this.productProps)
- 
+  async created() {
+    console.log(this.productProps);
   },
   methods: {
-    addProduct() {
-      let newProduct = {
-        //teeme uued muutujad, kõikide product tabeli väljadega, mida formil kuvada väljadena
+    addProduct() { 
+      let newProduct = {  //teeme uued muutujad, kõikide product tabeli väljadega, mida formil kuvada väljadena
         name: this.product.name,
         brandname: this.product.brandname,
         productCode: this.product.productCode,
@@ -162,11 +151,10 @@ export default {
       this.submitToServer(newProduct); //kutsun välja kõik sisestatud tekstid koos newproduct väljadega
     },
 
-    submitToServer(data) {
-      //kutsun üleval välja, võtab uue meetodiga uue data
+    submitToServer(data) { //kutsun üleval välja, võtab uue meetodiga uue data
       axios
         .post("api/product", data, {
-          headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
+        headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
         }) //suuname back endi
         .then((response) => {
           console.log(response);
@@ -175,14 +163,14 @@ export default {
           console.log(error.message);
         });
     },
-    //-------Lisatud osa updateProduct
+    //---toote muutmine---
     updateProduct() {
       console.log("Olen updateProductis");
-      let id = this.productProps.id
+      let id = this.productProps.id;
       axios
         .post("/api/product/" + id, this.product, {
-          headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
-        }) //3 parameetrit
+        headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
+        }) //3 parameetrit, url, toode ja headers
         .then((response) => {
           console.log(response);
         })
