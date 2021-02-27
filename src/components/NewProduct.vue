@@ -173,6 +173,7 @@ export default {
         }) //3 parameetrit, url, toode ja headers
         .then((response) => {
           console.log(response);
+          location.reload();
         })
         .catch((error) => {
           console.log(error);
