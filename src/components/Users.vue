@@ -52,7 +52,7 @@ export default {
       method: "GET",
       headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
     });
-    console.log("users", users);
+    //console.log("users", users);
     this.items = users.data.allUsers;
   },
 

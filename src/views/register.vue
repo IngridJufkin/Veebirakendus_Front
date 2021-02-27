@@ -93,13 +93,13 @@ export default {
         password: this.user.password,
         age: this.user.age,
       };
-      console.log(newUser);
+      //console.log(newUser);
       this.submitToServer(newUser); //kutsun välja kõik sisestatud tekstid koos newproduct väljadega
     },
     async submitToServer(data) {
       //kutsun üleval välja, võtab uue meetodiga uue data
       const user = await axios.post("api/user", data); //suuname back endi , kasutan async await fn sest kasutada
-      console.log("users", user);
+      //console.log("users", user);
       this.$router.push("/login");
     },
   },

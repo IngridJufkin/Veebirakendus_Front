@@ -77,7 +77,7 @@ export default {
       method: "GET",
       headers: { authorization: "Bearer " + localStorage.getItem("jwt") },
     });
-    console.log("products", products);
+    //console.log("products", products);
     this.items = products.data.allProducts;
   },
   methods: {

@@ -147,7 +147,7 @@ export default {
         price: this.product.price,
         notes: this.product.notes,
       };
-      console.log(newProduct);
+      //console.log(newProduct);
       this.submitToServer(newProduct); //kutsun välja kõik sisestatud tekstid koos newproduct väljadega
     },
 
@@ -165,7 +165,7 @@ export default {
     },
     //---toote muutmine---
     updateProduct() {
-      console.log("Olen updateProductis");
+      //console.log("Olen updateProductis");
       let id = this.productProps.id;
       axios
         .post("/api/product/" + id, this.product, {
